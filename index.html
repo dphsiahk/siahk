@@ -132,14 +132,14 @@
   </footer>
 </body>
 </html> -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SIAHK - Strategic Institute for Applied Human Knowledge</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -150,6 +150,7 @@
       font-family: 'Inter', sans-serif;
       background-color: #f8f9fa;
       color: #333;
+      scroll-behavior: smooth;
     }
     header {
       background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
@@ -163,21 +164,59 @@
     }
     nav {
       background: #fff;
-      padding: 15px 20px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      text-align: center;
       position: sticky;
       top: 0;
-      z-index: 999;
+      z-index: 1000;
     }
-    nav a {
-      margin: 0 15px;
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+    .nav-links a {
       text-decoration: none;
       color: #333;
       font-weight: 600;
     }
-    nav a:hover {
+    .nav-links a:hover {
       color: #007bff;
+    }
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+    .menu-toggle span {
+      height: 3px;
+      width: 25px;
+      background-color: #333;
+      margin: 4px 0;
+    }
+    @media (max-width: 768px) {
+      .nav-links {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: #fff;
+        flex-direction: column;
+        align-items: center;
+        display: none;
+      }
+      .nav-links.active {
+        display: flex;
+      }
+      .menu-toggle {
+        display: flex;
+      }
     }
     section {
       padding: 60px 20px;
@@ -210,6 +249,40 @@
       padding: 20px;
       font-size: 0.9rem;
     }
+    form {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    button {
+      background: #2c5364;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1c3d50;
+    }
+    .success-msg {
+      color: green;
+      margin-top: 10px;
+    }
+    .error-msg {
+      color: red;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -220,11 +293,19 @@
   </header>
 
   <nav>
-    <a href="#leadership">Spirit-led Leadership</a>
-    <a href="#reasoning">Logical & Strategic Reasoning</a>
-    <a href="#policy">Public Administration & Policy</a>
-    <a href="#humility">Authority with Humility</a>
-    <a href="#transformation">Transformation through Knowledge</a>
+    <div class="nav-container">
+      <div class="menu-toggle" id="mobile-menu">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="nav-links" id="menu">
+        <a href="#leadership">Leadership</a>
+        <a href="#reasoning">Reasoning</a>
+        <a href="#policy">Policy</a>
+        <a href="#humility">Humility</a>
+        <a href="#transformation">Transformation</a>
+        <a href="#contact">Register</a>
+      </div>
+    </div>
   </nav>
 
   <section id="leadership">
@@ -242,24 +323,63 @@
   <section id="policy">
     <h2>Public Administration & Policy</h2>
     <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=800&q=60" alt="Public Administration">
-    <p>Our policy and administration stream explores governance models, ethical public management, civic responsibility, and participatory policy-making to nurture responsible public servants.</p>
+    <p>Our public policy program explores civic responsibility, ethical governance, budget systems, and transformative policies to shape responsible leadership and administration.</p>
   </section>
 
   <section id="humility">
     <h2>Authority with Humility</h2>
     <img src="https://images.unsplash.com/photo-1531312267635-6e6f10cfa5d3?auto=format&fit=crop&w=800&q=60" alt="Authority with Humility">
-    <p>Great leadership comes from humility. We promote a culture of service, where authority is exercised with empathy, respect, and self-restraint, empowering others and building trust.</p>
+    <p>True leadership is marked by humility. We train our leaders to lead with empathy and respect, focusing on collaboration over command, and purpose over pride.</p>
   </section>
 
   <section id="transformation">
     <h2>Transformation through Knowledge</h2>
     <img src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&w=800&q=60" alt="Knowledge Transformation">
-    <p>Transformation begins with understanding. SIAHK provides a platform for acquiring transformative knowledge that reshapes mindsets and institutions through education, research, and applied insight.</p>
+    <p>Transformation begins with understanding. SIAHK equips individuals with knowledge that empowers them to reform communities and reshape institutions from within.</p>
+  </section>
+
+  <section id="contact">
+    <h2>Register / Contact Us</h2>
+    <form id="contact-form">
+      <input type="text" name="name" placeholder="Full Name" required />
+      <input type="email" name="email" placeholder="Email Address" required />
+      <input type="text" name="phone" placeholder="Phone Number" />
+      <textarea name="message" rows="4" placeholder="Why are you registering?"></textarea>
+      <button type="submit">Send Registration</button>
+      <div id="form-message" class="success-msg"></div>
+    </form>
   </section>
 
   <footer>
     &copy; 2025 SIAHK. All rights reserved. | Strategic Institute for Applied Human Knowledge
   </footer>
+
+  <script>
+    const menuToggle = document.getElementById('mobile-menu');
+    const navLinks = document.getElementById('menu');
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+
+    // Initialize EmailJS
+    (function() {
+      emailjs.init("YOUR_PUBLIC_KEY_HERE"); // Replace with your EmailJS public key
+    })();
+
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
+        .then(() => {
+          document.getElementById('form-message').textContent = "Registration sent successfully!";
+          this.reset();
+        }, (error) => {
+          document.getElementById('form-message').textContent = "Failed to send. Try again.";
+          document.getElementById('form-message').className = "error-msg";
+        });
+    });
+  </script>
 </body>
 </html>
+
 
